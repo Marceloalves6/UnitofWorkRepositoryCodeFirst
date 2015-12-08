@@ -39,6 +39,11 @@ namespace DataAccess.Repository
             return this.DbSet.Where(predicate).AsQueryable<TObject>();
         }
 
+        public IQueryable<TObject> Filter(Expression<Func<TObject, bool>> predicate, params Expression<Func<TObject, dynamic>>[] Includes)
+        {
+            return Includes.Aggregate(this.DbSet.AsQueryable(), (current, include) => current.Include(include)).Where(predicate).AsQueryable<TObject>();
+        }
+
         public IQueryable<TObject> Filter<Key>(Expression<Func<TObject, bool>> filter, out int total, int index = 0, int size = 50)
         {
             int skipCount = index * size;
@@ -122,5 +127,8 @@ namespace DataAccess.Repository
             if (shareContext && (Context != null))
                 Context.Dispose();
         }
+
+
+       
     }
 }

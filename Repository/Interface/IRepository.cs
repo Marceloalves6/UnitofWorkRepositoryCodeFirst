@@ -19,6 +19,12 @@ namespace DataAccess.Repository.Interface
         /// </summary>
         /// <param name="predicate">Specified a filter</param>
         IQueryable<T> Filter(Expression<Func<T, bool>> predicate);
+        /// <summary>
+        /// Gets objects from database by filter.
+        /// </summary>
+        /// <param name="predicate">Specified a filter</param>
+        /// <param name="Includes">Specified one or more Entity releted that will be load with the main Entity</param>
+        IQueryable<T> Filter(Expression<Func<T, bool>> predicate, params  Expression<Func<T, dynamic>>[] Includes);
 
         /// <summary>
         /// Gets objects from database with filting and paging.
